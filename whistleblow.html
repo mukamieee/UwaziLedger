@@ -29,8 +29,29 @@
             position: sticky; top: 0; z-index: 1000;
         }
         .header-content h1 { color: var(--primary-dark); font-size: 1.5rem; }
-        .back-link { text-decoration: none; color: var(--primary-blue); font-weight: bold; }
-
+        
+        /* Updated Back Link to look like a pill button */
+        .back-link { 
+            display: inline-block; 
+            background: transparent; 
+            border: 2px solid var(--primary-blue); 
+            color: var(--primary-blue); 
+            text-decoration: none; 
+            padding: 0.6rem 1.5rem; 
+            border-radius: 4px;
+            font-weight: bold; 
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        /* Hover effect: Fills in blue and floats up slightly */
+        .back-link:hover { 
+            background: var(--primary-blue); 
+            color: white; 
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+        
         /* 3. Hero Banner - Urgent & Secure Theme */
         .hero-banner {
             background: linear-gradient(135deg, var(--primary-dark) 0%, #2c3e50 100%);
