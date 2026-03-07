@@ -278,49 +278,47 @@
     </div>
 
     <script>
+        // File upload visual feedback & Fake Scrubbing Animation
+        document.getElementById('evidenceUpload').addEventListener('change', function(e) {
+            const label = document.querySelector('.file-upload-label');
+            const box = document.querySelector('.file-upload-box');
+            
+            if(e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                
+                // Step 1: Show scanning phase
+                label.innerText = `Encrypting & Scrubbing Metadata for ${fileName}...`;
+                label.style.color = '#e67e22'; 
+                box.style.borderColor = '#e67e22';
+                
+                // Step 2: Simulate a 2-second security delay, then show success
+                setTimeout(() => {
+                    label.innerHTML = `✅ File Secured & Anonymized: <strong>${fileName}</strong>`;
+                    label.style.color = '#2ecc71'; 
+                    box.style.borderColor = '#2ecc71';
+                    box.style.background = '#f4fdf8'; 
+                }, 2000); 
+            }
+        });
+
         // Form Submission Simulation
         document.getElementById('whistleblowerForm').addEventListener('submit', function(event) {
-            // 1. Prevent the page from refreshing
             event.preventDefault();
-            
-            // 2. Here is where we would normally send data to a database.
-            // For the hackathon, we simulate a successful submission by showing the modal.
-            
-            // Collect the data to simulate saving it (we can pull this into an Admin dashboard later)
-            const reportData = {
-                date: document.getElementById('incidentDate').value,
-                county: document.getElementById('county').value,
-                violation: document.getElementById('violationType').value,
-                party: document.getElementById('partyInvolved').value,
-                status: 'Pending Verification'
-            };
-
-            // Save to browser's local storage to prove to judges the data is captured
-            let reports = JSON.parse(localStorage.getItem('uwazi_reports')) ||[];
-            reports.push(reportData);
-            localStorage.setItem('uwazi_reports', JSON.stringify(reports));
-
-            // Show Success Modal
             document.getElementById('successModal').style.display = 'flex';
         });
 
         function closeModal() {
-            // Hide modal and clear the form
             document.getElementById('successModal').style.display = 'none';
             document.getElementById('whistleblowerForm').reset();
             
-            // Redirect back to the public dashboard
+            // Reset the file upload box styling
+            document.querySelector('.file-upload-label').innerText = 'Click to Browse';
+            document.querySelector('.file-upload-label').style.color = 'var(--primary-blue)';
+            document.querySelector('.file-upload-box').style.borderColor = '#bdc3c7';
+            document.querySelector('.file-upload-box').style.background = '#fafafa';
+
             window.location.href = "public-dashboard.html";
         }
-
-        // File upload visual feedback
-        document.getElementById('evidenceUpload').addEventListener('change', function(e) {
-            if(e.target.files.length > 0) {
-                const fileName = e.target.files[0].name;
-                document.querySelector('.file-upload-label').innerText = `File selected: ${fileName}`;
-                document.querySelector('.file-upload-label').style.color = '#2ecc71';
-            }
-        });
     </script>
 </body>
 </html>

@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UwaziLedger | Secure Login</title>
-
     <style>
-    /* Global Reset */
+        /* Global Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
         /* The Background Image & Centering */
@@ -29,13 +28,13 @@
             z-index: 0;
         }
 
-        /* --- 1. THE ENTRANCE ANIMATION (KEYFRAMES) --- */
+        /* --- THE ENTRANCE ANIMATION --- */
         @keyframes floatIn {
             0% { opacity: 0; transform: translateY(50px) scale(0.95); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* The Upgraded Glassmorphism Login Card */
+        /* The Glassmorphism Login Card */
         .login-container {
             background: rgba(255, 255, 255, 0.45); 
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -49,8 +48,6 @@
             border-top: 5px solid #3498db; 
             position: relative; 
             z-index: 1; 
-            
-            /* Triggering the entrance animation here! */
             animation: floatIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
@@ -67,21 +64,18 @@
             width: 100%;
             padding: 0.8rem;
             border: 2px solid transparent; 
-            background: rgba(255, 255, 255, 0.6); /* Slightly transparent inputs */
+            background: rgba(255, 255, 255, 0.6); 
             border-radius: 6px;
             font-size: 1rem;
-            
-            /* The 'transition' tells the browser to animate any changes smoothly over 0.3 seconds */
             transition: all 0.3s ease;
         }
         
-        /* --- 2. INTERACTION: Input Focus --- */
         .form-control:focus { 
-            background: rgba(255, 255, 255, 0.95); /* Turns almost solid white */
+            background: rgba(255, 255, 255, 0.95); 
             border-color: #3498db; 
             outline: none; 
-            transform: translateY(-3px); /* Physically lifts up off the page */
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Adds a shadow underneath */
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
         }
 
         /* The Login Button */
@@ -100,21 +94,18 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
 
-        /* --- 3. INTERACTION: Button Hover & Click --- */
         .btn-submit:hover { 
-            background: #e74c3c; /* Changes to Uwazi red */
-            transform: translateY(-4px); /* Floats up */
-            box-shadow: 0 12px 20px rgba(231, 76, 60, 0.4); /* Casts a red glowing shadow */
+            background: #e74c3c; 
+            transform: translateY(-4px); 
+            box-shadow: 0 12px 20px rgba(231, 76, 60, 0.4); 
         }
         .btn-submit:active { 
-            transform: translateY(2px); /* Physically squishes down when you click it */
+            transform: translateY(2px); 
             box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
         }
 
-        /* Small link at the bottom */
+        /* The Back Link */
         .footer-link { text-align: center; margin-top: 2rem; }
-        
-        /* --- 4. INTERACTION: The Back Link --- */
         .footer-link a { 
             color: #1a252f; 
             text-decoration: none; 
@@ -128,27 +119,39 @@
         }
         .footer-link a:hover {
             background: rgba(255,255,255,0.8);
-            transform: translateX(-5px); /* Slides left slightly like an arrow pointing back */
+            transform: translateX(-5px); 
         }
-        </style>
+    </style>
 </head>
 <body>
 
     <div class="login-container">
         <div class="header">
             <h1>UwaziLedger</h1>
-            <p>Official Portal Login</p>
+            <p>Official Access Portal</p>
         </div>
 
         <form id="loginForm">
             <div class="form-group">
-                <label for="partySelect">Political Party Affiliation</label>
-                <select id="partySelect" class="form-control" required>
-                    <option value="" disabled selected>Select your party...</option>
+                <label for="partySelect">Organization / Firm Affiliation</label>
+                <select id="partySelect" class="form-control" onchange="toggleAuditClient()" required>
+                    <option value="" disabled selected>Select organization...</option>
+                    <option value="uda">UDA Internal Staff</option>
+                    <option value="odm">ODM Internal Staff</option>
+                    <option value="jubilee">Jubilee Internal Staff</option>
+                    <option value="wiper">Wiper Internal Staff</option>
+                    <option value="iebc" style="font-weight: bold; color: #e74c3c;">Independent Oversight Firm (ICPAK/IEBC)</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="clientAssignmentGroup" style="display: none; padding-left: 1rem; border-left: 3px solid #e74c3c;">
+                <label for="clientSelect" style="color: #e74c3c;">Assigned Audit Client</label>
+                <select id="clientSelect" class="form-control" style="border-color: #e74c3c;">
+                    <option value="" disabled selected>Select the party you are auditing...</option>
                     <option value="uda">UDA</option>
                     <option value="odm">ODM</option>
                     <option value="jubilee">Jubilee</option>
-                    <option value="wiper">Wiper</option>
+                    <option value="all" style="font-weight: bold;">Global Queue (IEBC Officer Only)</option>
                 </select>
             </div>
 
@@ -156,19 +159,19 @@
                 <label for="roleSelect">Authorization Clearance</label>
                 <select id="roleSelect" class="form-control" required>
                     <option value="" disabled selected>Select your access level...</option>
-                    <option value="maker">Data Entry Clerk (Maker)</option>
-                    <option value="checker">Compliance Auditor (Checker)</option>
-                    <option value="admin">System Administrator</option>
+                    <option value="maker">Party Finance Clerk (Maker)</option>
+                    <option value="checker">ICPAK External Auditor (Checker)</option>
+                    <option value="admin">IEBC Compliance Officer</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="userID">Staff ID / Email</label>
+                <label for="userID">Staff ID / ICPAK Registration No.</label>
                 <input type="text" id="userID" class="form-control" placeholder="Enter your credentials" required>
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Encrypted Password</label>
                 <input type="password" id="password" class="form-control" placeholder="••••••••" required>
             </div>
 
@@ -181,6 +184,18 @@
     </div>
 
     <script>
+        // The new function that makes the Client box appear!
+        function toggleAuditClient() {
+            const partySelect = document.getElementById('partySelect').value;
+            const clientGroup = document.getElementById('clientAssignmentGroup');
+            
+            if (partySelect === 'iebc') {
+                clientGroup.style.display = 'block'; // Shows the field
+            } else {
+                clientGroup.style.display = 'none';  // Hides it for regular party staff
+            }
+        }
+
         function handleLogin() {
             const role = document.getElementById('roleSelect').value;
             
@@ -193,8 +208,8 @@
                 window.location.href = "data-entry.html"; 
             } else if (role === 'checker') {
                 window.location.href = "approval.html"; 
-            } else {
-                alert("Admin dashboard is currently locked for this prototype.");
+            } else if (role === 'admin') {
+                alert("IEBC Oversight Dashboard is currently locked for this prototype. (Future Scope: Reviewing Whistleblower Tips!)");
             }
         }
     </script>
